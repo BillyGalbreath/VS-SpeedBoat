@@ -4,11 +4,11 @@ namespace SpeedBoat;
 
 public class FileWatcher {
     private readonly FileSystemWatcher _watcher;
-    private readonly SpeedBoat _mod;
+    private readonly SpeedBoatMod _mod;
 
     public bool Queued { get; set; }
 
-    public FileWatcher(SpeedBoat mod) {
+    public FileWatcher(SpeedBoatMod mod) {
         _mod = mod;
 
         _watcher = new FileSystemWatcher(GamePaths.ModConfig) {
@@ -53,7 +53,7 @@ public class FileWatcher {
         // wait for other changes to process
         _mod.Api.Event.RegisterCallback(_ => {
             // reload the config
-            _mod.LoadSettingsFromDisk();
+            _mod.LoadServerSettingsFromDisk();
 
             // wait some more to remove this change from the queue since the reload triggers another write
             _mod.Api.Event.RegisterCallback(_ => {
