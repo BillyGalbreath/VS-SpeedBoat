@@ -9,6 +9,7 @@ using Vintagestory.GameContent;
 
 namespace SpeedBoat;
 
+// ReSharper disable once ClassNeverInstantiated.Global
 public class SpeedBoatMod : ModSystem {
     private static readonly AssetLocation _sailboat = new("game", "boat-sailed-*");
 
@@ -125,9 +126,9 @@ public class SpeedBoatMod : ModSystem {
         __result.Y /= GetSpeedMultiplier(__instance);
     }
 
-    private static void PostOnRenderFrame(EntityBoat __instance) {
+    private static void PostOnRenderFrame(EntityBoat __instance, bool ___unfurlSails) {
         if (__instance.Properties.Client.Renderer is EntityShapeRenderer renderer) {
-            renderer.zangle = __instance.Swimming ? __instance.mountAngle.Z + (float)(-__instance.ForwardSpeed * 1.3f) / GetSpeedMultiplier(__instance) : 0.0f;
+            renderer.zangle = __instance.Swimming ? __instance.mountAngle.Z + (float)(-__instance.ForwardSpeed * 1.3f * (___unfurlSails ? 0.5 : 1.0)) / GetSpeedMultiplier(__instance) : 0.0f;
         }
     }
 }
